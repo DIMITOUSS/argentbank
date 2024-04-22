@@ -1,0 +1,124 @@
+/transactions:
+  GET:
+    summary: Récupère toutes les transactions pour le mois en cours, groupées par compte
+    responses:
+      '200':
+        description: Renvoie les transactions du mois en cours groupées par compte
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: object
+                properties:
+                  account:
+                    type: string
+                    description: Nom du compte
+                  transactions:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Transaction'
+/transactions:
+  GET:
+    summary: de visualiser les détails d'une transaction dans une autre vue ;
+    responses:
+      '200':
+       détails d'une transaction dans une autre vue ;
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: object
+                properties:
+                  account:
+                    type: string
+                    description: Nom du compte
+                  total:
+                    type: number
+                    description: Total des transactions du mois en cours dans ce compte
+                  transactions:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        date:
+                          type: string
+                          format: date
+                          description: Date
+                        description:
+                          type: string
+                          description: Description
+                        amount:
+                          type: number
+                          description: Amount
+                        balance:
+                          type: number
+                          description: Balance
+        '500':
+              description: Une erreur est survenue lors de la récupération des transactions. Veuillez réessayer plus tard.
+
+/transactions:
+  POST:
+    summary: Ajoute une nouvelle transaction
+    requestBody:
+      description: Objet JSON représentant les détails de la transaction à ajouter
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/TransactionInput'
+    responses:
+      '200':
+        description: La transaction a été ajoutée avec succès
+      '400':
+        description: Les données fournies sont invalides
+
+/transactions/{transactionId}:
+  PUT:
+    summary: Modifie une transaction existante
+    parameters:
+      - name: transactionId
+        in: path
+        description: Identifiant unique de la transaction à modifier
+        required: true
+        schema:
+          type: string
+    requestBody:
+description: |
+        Objet JSON représentant les nouveaux détails de la transaction. Les champs suivants peuvent être modifiés :
+        - date: Date de la transaction au format YYYY-MM-DD.
+        - description: Description de la transaction.
+        - amount: Montant de la transaction.
+        - balance: Solde de la transaction.
+        - transaction_type: Type de la transaction (par exemple, "électronique").
+        - category: Catégorie de la transaction. Utilisez le crayon pour sélectionner une catégorie dans un menu déroulant.
+        - note: Note associée à la transaction. Utilisez le crayon pour ajouter une note via un champ de texte.
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/TransactionInput'
+    responses:
+      '200':
+        description: La transaction a été modifiée avec succès
+      '404':
+        description: Aucune transaction trouvée avec l'identifiant spécifié
+      '400':
+        description: Les données fournies sont invalides
+
+DELETE:
+  summary: Cette endpoint permet de supprimer des informations spécifiques sur une transaction existante, identifiée par son ID
+  parameters:
+    - name: transactionId
+      in: path
+      description: Identifiant unique de la transaction à supprimer
+      required: true
+      schema:
+        type: string
+  responses:
+    '200':
+      description: Les informations sur la transaction ont été supprimées avec succès
+    '404':
+      description: Aucune transaction trouvée avec l'identifiant spécifié
+
