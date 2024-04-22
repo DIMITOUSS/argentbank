@@ -1,0 +1,93 @@
+swagger: '2.0'
+info:
+  title: ArgentBank Transaction API
+  version: 1.0.0
+paths:
+  /transactions:
+    get:
+      summary: Retrieve all transactions for the current month
+      description: |
+        Retrieves a list of transactions grouped by account for the current month.
+      responses:
+        200:
+          description: Successful response with transaction data
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Transaction'
+        404:
+          description: No transactions found for the current month
+
+  /transactions/{id}:
+    get:
+      summary: Retrieve details of a specific transaction
+      parameters:
+        - name: id
+          in: path
+          description: ID of the transaction to retrieve details for
+          required: true
+          type: string
+      responses:
+        200:
+          description: Successful response with transaction details
+          schema:
+            $ref: '#/definitions/Transaction'
+        404:
+          description: Transaction not found
+
+    put:
+      summary: Update details of a specific transaction
+      parameters:
+        - name: id
+          in: path
+          description: ID of the transaction to update
+          required: true
+          type: string
+        - name: body
+          in: body
+          description: Updated transaction data
+          required: true
+          schema:
+            $ref: '#/definitions/Transaction'
+      responses:
+        200:
+          description: Transaction updated successfully
+        400:
+          description: Invalid request body
+        404:
+          description: Transaction not found
+
+    delete:
+      summary: Delete a specific transaction
+      parameters:
+        - name: id
+          in: path
+          description: ID of the transaction to delete
+          required: true
+          type: string
+      responses:
+        204:
+          description: Transaction deleted successfully
+        404:
+          description: Transaction not found
+
+definitions:
+  Transaction:
+    type: object
+    properties:
+      id:
+        type: string
+        description: Unique identifier for the transaction
+      date:
+        type: string
+        format: date
+        description: Date of the transaction
+      description:
+        type: string
+        description: Description of the transaction
+      amount:
+        type: number
+        description: Amount of the transaction
+      account:
+        type: string
+        description: Account associated with the transaction
