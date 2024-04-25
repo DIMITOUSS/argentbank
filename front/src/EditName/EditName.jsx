@@ -9,7 +9,7 @@ const EditName = ({ setIsEditing }) => {
   const dispatch = useDispatch(); // Obtaining the dispatch function
 
   // Local state to store the new user name
-  const [newUserName, setNewUserName] = useState(userProfile?.userName || "");
+  const [newUserName, setNewUserName] = useState(userProfile?.userName);
 
   // Handling user name change
   const handleUserNameChange = (e) => {
