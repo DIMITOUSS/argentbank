@@ -1,4 +1,5 @@
 import axios from "axios";
+import Swal from "sweetalert2";
 
 // Constantes pour les actions de connexion
 export const LOGIN_REQUEST = 'LOGIN_REQUEST';
@@ -30,6 +31,11 @@ export const loginUser = (email, password, navigate, rememberMe) => {
       }
     } catch (error) {
       dispatch(loginFailure("Identifiants incorrects"));
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Identifiants incorrects",
+      });
 
       localStorage.removeItem("token");
       sessionStorage.removeItem("token");

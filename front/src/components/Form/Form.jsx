@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { loginUser } from '../../action/userActionCreator';
 import { useNavigate } from 'react-router-dom';
-import Swal from 'sweetalert2'
 
 import './Form.css';
 
@@ -26,23 +25,13 @@ const SignIn = () => {
     try {
       if (!email || !password) {
         setShowError(true);
-        Swal.fire({
-          icon: "error",
-          title: "Oops...",
-          text: "Something went wrong!",
-          footer: '<a href="#">Why do I have this issue?</a>'
-        });
+      
         return;
       }
 
       await dispatch(loginUser(email, password, navigate,rememberMe));//hooks envoie les informations à Redux
     } catch (error) {
-      Swal.fire({
-        icon: "error",
-        title: "Oops...",
-        text: "Something went wrong!",
-        footer: '<a href="#">Why do I have this issue?</a>'
-      });
+    
       console.error('API Error:', error);
       setShowError(true);
     }
