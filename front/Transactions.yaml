@@ -19,14 +19,14 @@ paths:
           description: Aucune transaction trouvée pour le mois en cours
 
   /transactions/{id}:
+    parameters:
+      - name: id
+        in: path
+        description: ID de la transaction pour récupérer les détails
+        required: true
+        type: string
     get:
       summary: Récupérer les détails d'une transaction spécifique
-      parameters:
-        - name: id
-          in: path
-          description: ID de la transaction pour récupérer les détails
-          required: true
-          type: string
       responses:
         200:
           description: Réponse réussie avec les détails de la transaction
@@ -34,6 +34,26 @@ paths:
             $ref: '#/definitions/Transaction'
         404:
           description: Transaction non trouvée
+
+    post:
+      summary: Ajoute une nouvelle transaction
+      parameters:
+        - name: id
+          in: path
+          description: ID de la transaction pour récupérer les détails
+          required: true
+          type: string
+        - name: body
+          in: body
+          description: Objet JSON représentant les détails de la transaction à ajouter
+          required: true
+          schema:
+            $ref: '#/definitions/TransactionInput'
+      responses:
+        200:
+          description: La transaction a été ajoutée avec succès
+        400:
+          description: Les données fournies sont invalides
 
     put:
       summary: Mettre à jour les détails d'une transaction spécifique
@@ -73,6 +93,25 @@ paths:
 
 definitions:
   Transaction:
+    type: object
+    properties:
+      id:
+        type: string
+        description: Identifiant unique de la transaction
+      date:
+        type: string
+        format: date
+        description: Date de la transaction
+      description:
+        type: string
+        description: Description de la transaction
+      amount:
+        type: number
+        description: Montant de la transaction
+      account:
+        type: string
+        description: Compte associé à la transaction
+  TransactionInput:
     type: object
     properties:
       id:
