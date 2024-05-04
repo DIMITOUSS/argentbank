@@ -17,6 +17,20 @@ paths:
               $ref: '#/definitions/Transaction'
         404:
           description: Aucune transaction trouvée pour le mois en cours
+    post:
+      summary: Ajoute une nouvelle transaction
+      parameters:
+        - name: body
+          in: body
+          description: Objet JSON représentant les détails de la transaction à ajouter
+          required: true
+          schema:
+            $ref: '#/definitions/TransactionInput'
+      responses:
+        200:
+          description: La transaction a été ajoutée avec succès
+        400:
+          description: Les données fournies sont invalides
 
   /transactions/{id}:
     parameters:
@@ -34,26 +48,6 @@ paths:
             $ref: '#/definitions/Transaction'
         404:
           description: Transaction non trouvée
-
-    post:
-      summary: Ajoute une nouvelle transaction
-      parameters:
-        - name: id
-          in: path
-          description: ID de la transaction pour récupérer les détails
-          required: true
-          type: string
-        - name: body
-          in: body
-          description: Objet JSON représentant les détails de la transaction à ajouter
-          required: true
-          schema:
-            $ref: '#/definitions/TransactionInput'
-      responses:
-        200:
-          description: La transaction a été ajoutée avec succès
-        400:
-          description: Les données fournies sont invalides
 
     put:
       summary: Mettre à jour les détails d'une transaction spécifique
@@ -74,20 +68,6 @@ paths:
           description: Transaction mise à jour avec succès
         400:
           description: Corps de requête invalide
-        404:
-          description: Transaction non trouvée
-
-    delete:
-      summary: Supprimer une transaction spécifique
-      parameters:
-        - name: id
-          in: path
-          description: ID de la transaction à supprimer
-          required: true
-          type: string
-      responses:
-        204:
-          description: Transaction supprimée avec succès
         404:
           description: Transaction non trouvée
 
